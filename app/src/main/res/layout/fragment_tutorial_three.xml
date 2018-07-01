@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@android:color/transparent">
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="56dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp">
+
+    <org.angmarch.views.NiceSpinner
+        android:id="@+id/spinner_titull"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:text="Titulli"
+        app:backgroundSelector="@drawable/edit_text_selector"
+        android:textColor="@color/black"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_margin="5dp"/>
+
+        <org.angmarch.views.NiceSpinner
+            android:id="@+id/spinner_grada"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:text="Grada"
+            app:backgroundSelector="@drawable/edit_text_selector"
+            android:textColor="@color/black"
+            android:layout_marginTop="10dp"
+            android:layout_margin="5dp"/>
+    </LinearLayout>
+
+
+
+</RelativeLayout>

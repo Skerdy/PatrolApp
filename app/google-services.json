@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "862970085295",
+    "firebase_url": "https://patrol-app.firebaseio.com",
+    "project_id": "patrol-app",
+    "storage_bucket": "patrol-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:862970085295:android:3215d8c8312b9c04",
+        "android_client_info": {
+          "package_name": "com.barbarakoduzi.patrolapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "862970085295-fndn8tgkeli0u16srtbvllc99dvv8upq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.barbarakoduzi.patrolapp",
+            "certificate_hash": "a1014d77e777428a638880444c3954db257ce5ce"
+          }
+        },
+        {
+          "client_id": "862970085295-kind47dta0hoau4ahcmq6279i17an51b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDm0f1DkdfV0FlHy4Tb6CWOKpZI_pqye2Q"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "862970085295-kind47dta0hoau4ahcmq6279i17an51b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

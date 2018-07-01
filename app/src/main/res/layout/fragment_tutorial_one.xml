@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/background"
+    android:background="@android:color/transparent">
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/text_anim"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mire se erdhet ne Patrol App"
+        android:textColor="#fff"
+        android:textSize="25sp"
+        android:layout_margin="20dp"/>
+    <TextView
+        android:id="@+id/text_anim1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Patrol App lehteson punen tuaj!"
+        android:textColor="#fff"
+        android:layout_margin="15dp"
+        android:textSize="20sp"/>
+    <TextView
+        android:textAlignment="center"
+        android:id="@+id/text_anim2"
+        android:layout_margin="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ju lutem vazhdoni më tej pë të plotësuar detajet që kerkohen"
+        android:textColor="#fff"
+        android:textSize="15sp"/>
+
+</LinearLayout>
+
+
+
+
+
+</RelativeLayout>

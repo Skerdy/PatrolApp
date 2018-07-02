@@ -81,7 +81,7 @@ public class TutorialPane extends Fragment{
         titullRef = database.getReference(CodesUtil.REFERENCE_TITULL);
         gradaRef = database.getReference(CodesUtil.REFERENCE_GRADA);
 
-        titullRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        titullRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 titujt.clear();
@@ -98,7 +98,7 @@ public class TutorialPane extends Fragment{
         });
 
 
-        gradaRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        gradaRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 gradat.clear();

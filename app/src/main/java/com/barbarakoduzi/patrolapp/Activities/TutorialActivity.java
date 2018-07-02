@@ -1,5 +1,6 @@
 package com.barbarakoduzi.patrolapp.Activities;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 
 import com.barbarakoduzi.patrolapp.Fragments.TutorialPane;
 import com.barbarakoduzi.patrolapp.Models.Perdorues;
+import com.barbarakoduzi.patrolapp.Models.Polic;
 import com.barbarakoduzi.patrolapp.R;
 import com.barbarakoduzi.patrolapp.Utils.CodesUtil;
 import com.barbarakoduzi.patrolapp.Utils.MySharedPref;
@@ -33,7 +35,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class TutorialActivity extends AppCompatActivity {
-    static final int NUM_PAGES = 5;
+    static final int NUM_PAGES = 4;
     ViewPager pager;
     PagerAdapter pagerAdapter;
     LinearLayout circles;
@@ -50,7 +52,7 @@ public class TutorialActivity extends AppCompatActivity {
     private MySharedPref mySharedPref;
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
-    private DatabaseReference perdoruesReference;
+    private DatabaseReference perdoruesReference, policReference;
 
 
 
@@ -91,7 +93,7 @@ public class TutorialActivity extends AppCompatActivity {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 //See note above for why this is needed
-                if(position == NUM_PAGES - 2 && positionOffset > 0){
+                if(position == NUM_PAGES - 1 && positionOffset > 0){
                     if(isOpaque) {
                         pager.setBackgroundColor(Color.TRANSPARENT);
                         isOpaque = false;
@@ -108,15 +110,14 @@ public class TutorialActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 setIndicator(position);
-                if(position == NUM_PAGES - 2){
+                if(position == NUM_PAGES - 1){
                     next.setVisibility(View.GONE);
                     done.setVisibility(View.VISIBLE);
-                }else if(position < NUM_PAGES - 2){
+                }else if(position < NUM_PAGES - 1){
                     next.setVisibility(View.VISIBLE);
                     done.setVisibility(View.GONE);
-                }else if(position == NUM_PAGES - 1){
-                    if(validate())
-                    endTutorial();
+                }else if(position == NUM_PAGES){
+                    //ideja fillestare eshte qe ne scroll djathatas te perfundoje tutorial por e kam caktivizuar
                 }
             }
 
@@ -192,14 +193,23 @@ public class TutorialActivity extends AppCompatActivity {
         Log.d("Skerdi", "po behet ruajtja");
         //shkruaj te dhenat e marra ne FirebaseDatabase per policin e loguar;
         perdoruesReference = database.getReference(CodesUtil.REFERENCE_PERDORUES).child(mAuth.getCurrentUser().getUid());
+        policReference = database.getReference(CodesUtil.REFERENCE_POLIC);
+        final String policeId = policReference.push().getKey();
+
+        policReference.child(policeId).setValue(new Polic(titulli, grada));
+
         perdoruesReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Perdorues perdorues = new Perdorues(Integer.parseInt(dataSnapshot.child("rol").getValue().toString()), dataSnapshot.child("email").getValue().toString());
                 perdorues.setEmer(emer);
                 perdorues.setMbiemer(mbiemer);
+                perdorues.setIdProfil(policeId);
                 perdoruesReference.setValue(perdorues);
                 Log.d("Skerdi", "U be ruajtja");
+                Intent intent = new Intent(TutorialActivity.this, PolicActivity.class);
+                startActivity(intent);
+                finish();
             }
 
             @Override
@@ -239,9 +249,6 @@ public class TutorialActivity extends AppCompatActivity {
                     break;
                 case 3:
                     tp = TutorialPane.newInstance(R.layout.fragment_tutorial_four,3);
-                    break;
-                case 4:
-                    tp = TutorialPane.newInstance(R.layout.fragment_tutorial_transparent,4);
                     break;
             }
             return tp;

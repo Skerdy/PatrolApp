@@ -11,19 +11,26 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".Activities.Login"
-            android:theme="@style/AppTheme.Dark">
+            android:theme="@style/AppTheme.Dark"></activity>
+        <activity
+            android:name=".Activities.RegisterActivity"
+            android:theme="@style/AppTheme.Dark" />
+        <activity
+            android:name=".Activities.PolicActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Activities.TutorialActivity" />
+        <activity android:name=".Activities.ShoferActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".Activities.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Activities.RegisterActivity"
-            android:theme="@style/AppTheme.Dark" />
-        <activity android:name=".Activities.PolicActivity" />
-        <activity android:name=".Activities.TutorialActivity" />
-        <activity android:name=".Activities.ShoferActivity"></activity>
+        <activity android:name=".Activities.TutorialActivityShofer"></activity>
     </application>
 
 </manifest>

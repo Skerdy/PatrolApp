@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@drawable/splash_gradient"
+    >
+
+    <ImageView
+        android:id="@+id/app_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_icon_patrol_app_logo"
+        android:layout_centerVertical="true"
+        android:visibility="gone"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:id="@+id/patrol_app_text"
+        android:layout_marginTop="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="#FFF"
+        android:visibility="gone"
+        android:layout_below="@+id/app_logo"
+        android:layout_centerHorizontal="true"
+        android:text="Patrol App"/>
+
+</RelativeLayout>

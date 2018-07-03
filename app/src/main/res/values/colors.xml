@@ -24,5 +24,12 @@
     <color name="iron">#CCCCCC</color>
     <color name="white">#FFFFFF</color>
 
+    <color name="gradient_start">#388E3C</color>
+    <color name="gradient_end">#4CAF50</color>
+
     <color name="shade_login_text">#444CAF50</color>
+
+    <color name="fab_menu_colorNormal">@color/primary</color>
+    <color name="fab_menu_colorPressed">@color/primary_dark</color>
+    <color name="fab_menu_colorRipple">#B3E5FC</color>
 </resources>

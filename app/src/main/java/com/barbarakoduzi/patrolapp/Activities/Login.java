@@ -2,16 +2,15 @@ package com.barbarakoduzi.patrolapp.Activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import com.barbarakoduzi.patrolapp.R;
 import com.barbarakoduzi.patrolapp.Utils.CodesUtil;
@@ -21,6 +20,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class Login extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
@@ -32,6 +36,10 @@ public class Login extends AppCompatActivity {
     private Button loginButton;
     private FirebaseAuth mAuth;
     private MySharedPref mySharedPref;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseDatabase database;
+    private DatabaseReference perdoruesi_loguar;
+    private ProgressDialog progressDialog;
 
 
     @Override
@@ -39,6 +47,8 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         mySharedPref = new MySharedPref(this);
+        firebaseAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
         mAuth = FirebaseAuth.getInstance();
         emailText = findViewById(R.id.input_email);
         passwordText = findViewById(R.id.input_password);
@@ -83,7 +93,7 @@ public class Login extends AppCompatActivity {
 
         loginButton.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(Login.this,
+        progressDialog = new ProgressDialog(Login.this,
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Duke u log-uar ...");
@@ -114,8 +124,6 @@ public class Login extends AppCompatActivity {
     }
 
 
-
-
     @Override
     public void onBackPressed() {
         // Disable going back to the PolicActivity
@@ -123,13 +131,61 @@ public class Login extends AppCompatActivity {
     }
 
     public void onLoginSuccess() {
-        loginButton.setEnabled(true);
-        Intent intent = new Intent(Login.this, TutorialActivity.class);
-        startActivity(intent);
-        finish();
+
+        perdoruesi_loguar = database.getReference(CodesUtil.REFERENCE_PERDORUES).child(mAuth.getCurrentUser().getUid());
+
+        perdoruesi_loguar.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Class T;
+                progressDialog.dismiss();
+
+                Log.d("SkerdiPath", "jemi ne data change");
+
+                if(dataSnapshot.child("rol").getValue().toString().equals("2")){
+                    //nese eshte shofer dhe nuk eshte incializuar ende shkojme tek
+                    Log.d("SkerdiPath", "jemi Polic");
+                    T = PolicActivity.class;
+                }
+                else {
+                    Log.d("SkerdiPath", "jemi shofer");
+                    T = ShoferActivity.class;
+                }
+
+                if (dataSnapshot.child("emer").getValue() == null || (dataSnapshot.child("emer").getValue()!=null && dataSnapshot.child("emer").getValue().toString().length() == 0)) {
+                    Log.d("SkerdiPath", "Profili nuk ekziston");
+                    if(T.equals(PolicActivity.class)){
+                        Log.d("SkerdiPath", "jemi ne Tutorial per polic");
+                        T=TutorialActivity.class;
+                    }
+                    else{
+                        Log.d("SkerdiPath", "jemi ne Tutorial per shofer");
+                        T=TutorialActivityShofer.class;
+                    }
+
+                    loginButton.setEnabled(true);
+                    Intent intent;
+                    intent = new Intent(Login.this, T);
+                    Log.d("SkerdiPath", "Start Activity");
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Intent intent = new Intent(Login.this, T);
+                    Log.d("SkerdiPath", "Start Activity else");
+                    startActivity(intent);
+                    finish();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void onLoginFailed() {
+
         Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
         loginButton.setEnabled(true);
     }

@@ -61,7 +61,7 @@ public class VerGjobeActivity extends AppCompatActivity implements TimePickerDia
             @Override
             public void onClick(View v) {
                 if(validate()){
-                    gjobe = new Gjobe(idPolic,idShofer,llojiGjobes,pikeUlur,arsyejaTxt,vleratxt,data, new Date(), targaTxt, false);
+                    gjobe = new Gjobe(idPolic,idShofer,llojiGjobes,pikeUlur,arsyejaTxt,vleratxt, new Date(),data, targaTxt, false);
                     gjobat = database.getReference(CodesUtil.REFERENCE_GJOBAT);
                     gjobat.push().setValue(gjobe);
                     shoferRef.child(idShofer).addListenerForSingleValueEvent(new ValueEventListener() {

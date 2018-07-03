@@ -1,5 +1,6 @@
 package com.barbarakoduzi.patrolapp.Activities;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -9,6 +10,10 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
+import com.barbarakoduzi.patrolapp.Fragments.GjobatFragment;
+import com.barbarakoduzi.patrolapp.Fragments.GjobatShoferFragment;
+import com.barbarakoduzi.patrolapp.Fragments.HomePolic;
+import com.barbarakoduzi.patrolapp.Fragments.HomeShofer;
 import com.barbarakoduzi.patrolapp.Models.PerdoruesShofer;
 import com.barbarakoduzi.patrolapp.Models.Shofer;
 import com.barbarakoduzi.patrolapp.R;
@@ -99,6 +104,7 @@ public class ShoferActivity extends AppCompatActivity {
         toolbar.setTitle("Home");
         setTitle("Home");
         setupNavigationDrawer();
+        initHomeFragment();
     }
 
     private void setupNavigationDrawer() {
@@ -107,6 +113,8 @@ public class ShoferActivity extends AppCompatActivity {
         PrimaryDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1).withName("Gjobat e papaguara").withIcon(R.drawable.ic_icon_gjoba);
         PrimaryDrawerItem item2 = new PrimaryDrawerItem().withIdentifier(3).withName("Historiku i gjobave").withIcon(R.drawable.ic_icon_gjoba_history);
         SecondaryDrawerItem settings = new SecondaryDrawerItem().withIdentifier(5).withName("Settings").withIcon(R.drawable.ic_icon_settings);
+        SecondaryDrawerItem logut = new SecondaryDrawerItem().withIdentifier(5).withName("Dil").withIcon(R.drawable.ic_icons_logout);
+
         //nis me Home Fragment ne OnCreate
         // Create the AccountHeader
 
@@ -133,7 +141,7 @@ public class ShoferActivity extends AppCompatActivity {
                 .addDrawerItems(
                         itemHome, item1, item2,
                         new DividerDrawerItem(),
-                        settings
+                        settings,logut
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -144,15 +152,24 @@ public class ShoferActivity extends AppCompatActivity {
                             public void run() {
                                 switch (position) {
                                     case 1:
-
+                                        initHomeFragment();
                                         break;
                                     case 2:
-
+                                        shikoGjobatMeParamPagesen(false);
                                         break;
                                     case 3:
-
+                                        shikoGjobatMeParamPagesen(true);
                                         break;
-                                    case 4:
+                                    case 5:
+                                        //settings
+                                        break;
+                                    case 6:
+                                        //logout
+                                        auth.signOut();
+                                        Intent intent = new Intent(ShoferActivity.this, Login.class);
+                                        startActivity(intent);
+                                        finish();
+                                        break;
                                 }
                             }
                         }, 200);
@@ -163,5 +180,37 @@ public class ShoferActivity extends AppCompatActivity {
                 .build();
       /*  result.addStickyFooterItem(new PrimaryDrawerItem().withName("Log out").withIconColor(Color.parseColor("#ffffff")).withIcon(R.drawable.ic_exit_to_app_white_24dp).withIdentifier(6).withTextColor(Color.parseColor("#ffffff")));
         result.getStickyFooter().setBackgroundResource(R.color.nav_yellow);*/
+    }
+
+    public void initHomeFragment(){
+        toolbar.setTitle("Patrol App");
+        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        HomeShofer homeShofer = new HomeShofer();
+        fragmentTransaction.replace(R.id.fragmentLogin, homeShofer, "home");
+        fragmentTransaction.commitAllowingStateLoss();
+    }
+
+    public void shikoGjobatMeParamPagesen(boolean paguar){
+        toolbar.setTitle("Gjobat e Mia");
+        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        GjobatShoferFragment gjobatShoferFragment = GjobatShoferFragment.newInstance(paguar);
+        fragmentTransaction.addToBackStack("Gjobat");
+        fragmentTransaction.replace(R.id.fragmentLogin, gjobatShoferFragment, "Gjobat");
+        fragmentTransaction.commitAllowingStateLoss();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if(result.isDrawerOpen()){
+            result.closeDrawer();
+        }
+        else {
+            if (getFragmentManager().getBackStackEntryCount() > 0) {
+                getFragmentManager().popBackStack();
+            } else {
+                super.onBackPressed();
+            }
+        }
     }
 }

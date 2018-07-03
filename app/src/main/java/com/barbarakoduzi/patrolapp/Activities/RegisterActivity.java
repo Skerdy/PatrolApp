@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.barbarakoduzi.patrolapp.Models.Perdorues;
 import com.barbarakoduzi.patrolapp.R;
 import com.barbarakoduzi.patrolapp.Utils.CodesUtil;
+import com.barbarakoduzi.patrolapp.Utils.MySharedPref;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -45,6 +46,7 @@ public class RegisterActivity extends AppCompatActivity {
     private DatabaseReference roletFirebase;
     private DatabaseReference perdoruesFirebase;
     private FirebaseUser user;
+    private MySharedPref mySharedPref;
 
 
     @SuppressLint("ResourceAsColor")
@@ -53,6 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
         mAuth = FirebaseAuth.getInstance();
+        mySharedPref = new MySharedPref(this);
         rolet = new ArrayList<>();
         setupFirebaseReferences();
         setupViews();
@@ -162,6 +165,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void onSignupSuccess(String email) {
         signupButton.setEnabled(true);
+        mySharedPref.saveStringInSharedPref(CodesUtil.PERDORUES_EMAIL, email);
         //marrim te gjtiha te dhenat e mundshme dhe i ruajme ne firebase ne referencen " perdorues"
         Toast.makeText(getBaseContext(), "Rregjistrimi u krye me sukses!", Toast.LENGTH_LONG).show();
         Perdorues perdorues = new Perdorues(getRoleIdFromRole(niceSpinner.getText().toString()), email);

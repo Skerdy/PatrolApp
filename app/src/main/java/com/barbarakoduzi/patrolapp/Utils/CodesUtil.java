@@ -13,4 +13,6 @@ public class CodesUtil {
     public static final String SHOFER_ID = "shofer_id" ;
     public static final String POLIC_ID = "polic_id";
     public static final String TARGA ="targa" ;
+    public static final Integer GJOBA_E_PAGUAR = 1 ;
+    public static final String PERDORUES_EMAIL ="email_Patrol_APP" ;
 }

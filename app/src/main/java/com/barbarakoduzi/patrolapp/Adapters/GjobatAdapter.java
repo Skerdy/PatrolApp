@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.barbarakoduzi.patrolapp.Models.Gjobe;
 import com.barbarakoduzi.patrolapp.R;
+import com.barbarakoduzi.patrolapp.Utils.CodesUtil;
 
 import org.w3c.dom.Text;
 
@@ -27,7 +28,6 @@ public class GjobatAdapter extends RecyclerView.Adapter<GjobatAdapter.GjobeViewH
         this.ctx = ctx;
         this.gjobat = gjobat;
     }
-
 
 
     @NonNull
@@ -48,7 +48,6 @@ public class GjobatAdapter extends RecyclerView.Adapter<GjobatAdapter.GjobeViewH
 
 
         holder.gjoba_titull.setText(gjobe.getTarga());
-        holder.pershkrim.setText(gjobe.getLloji());
         holder.arsyeja.setText(gjobe.getArsyeja());
         holder.date_fillimi.setText(dateFillimi);
         holder.date_mbarimi.setText(dateMbarimi);
@@ -60,7 +59,7 @@ public class GjobatAdapter extends RecyclerView.Adapter<GjobatAdapter.GjobeViewH
             holder.paguar.setBackgroundColor(ctx.getResources().getColor(R.color.primary));
             holder.paguarText.setText("PAGUAR");
         }
-
+        else
         {
             holder.paguar.setBackgroundColor(ctx.getResources().getColor(R.color.colorAccent));
             holder.paguarText.setText("PAPAGUAR");
@@ -78,7 +77,7 @@ public class GjobatAdapter extends RecyclerView.Adapter<GjobatAdapter.GjobeViewH
 
     public class GjobeViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView gjoba_titull, date_fillimi, date_mbarimi, vlera, pershkrim, lloji, piket, arsyeja, paguarText;
+        private TextView gjoba_titull, date_fillimi, date_mbarimi, vlera, lloji, piket, arsyeja, paguarText;
         private LinearLayout paguar;
 
         public GjobeViewHolder(View itemView) {
@@ -86,14 +85,15 @@ public class GjobatAdapter extends RecyclerView.Adapter<GjobatAdapter.GjobeViewH
             gjoba_titull = itemView.findViewById(R.id.gjoba_titull);
             date_fillimi = itemView.findViewById(R.id.gjoba_date_fillimi);
             date_mbarimi = itemView.findViewById(R.id.gjoba_date_mbarimi);
-            vlera = itemView.findViewById(R.id.gjoba_arsyeja);
+            vlera = itemView.findViewById(R.id.gjoba_leke);
             paguar = itemView.findViewById(R.id.paguar);
-            pershkrim = itemView.findViewById(R.id.gjoba_pershkrim);
             lloji =itemView.findViewById(R.id.gjoba_lloji);
             piket  = itemView.findViewById(R.id.gjoba_piket_ulur);
             arsyeja = itemView.findViewById(R.id.gjoba_arsyeja);
             paguarText = itemView.findViewById(R.id.paguarText);
         }
+
+
     }
 
     public void setGjobat(List<Gjobe> gjobat) {

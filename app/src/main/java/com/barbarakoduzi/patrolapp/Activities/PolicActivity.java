@@ -1,5 +1,6 @@
 package com.barbarakoduzi.patrolapp.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentManager;
@@ -118,6 +119,7 @@ public class PolicActivity extends AppCompatActivity {
         PrimaryDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1).withName("Gjej Shofer").withIcon(R.drawable.ic_icon_gjej_driver);
         PrimaryDrawerItem item3 = new PrimaryDrawerItem().withIdentifier(2).withName("Historiku i gjobave").withIcon(R.drawable.ic_icon_gjoba_history);
         SecondaryDrawerItem settings = new SecondaryDrawerItem().withIdentifier(5).withName("Settings").withIcon(R.drawable.ic_icon_settings);
+        SecondaryDrawerItem logut = new SecondaryDrawerItem().withIdentifier(5).withName("Dil").withIcon(R.drawable.ic_icons_logout);
         //nis me Home Fragment ne OnCreate
         // Create the AccountHeader
 
@@ -144,7 +146,7 @@ public class PolicActivity extends AppCompatActivity {
                 .addDrawerItems(
                         itemHome, item1, item3,
                         new DividerDrawerItem(),
-                        settings
+                        settings,logut
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -176,10 +178,13 @@ public class PolicActivity extends AppCompatActivity {
                                         break;
                                     case 5:
                                         break;
-                                    case 7:
+                                    case 6:
+                                        auth.signOut();
+                                        Intent intent = new Intent(PolicActivity.this, Login.class);
+                                        startActivity(intent);
+                                        finish();
                                         break;
-                                    case -1:
-                                        break;
+
                                 }
                             }
                         }, 200);
@@ -216,5 +221,21 @@ public class PolicActivity extends AppCompatActivity {
         fragmentTransaction.addToBackStack("Gjobat");
         fragmentTransaction.replace(R.id.fragmentLogin, gjobatFragment, "Gjobat");
         fragmentTransaction.commitAllowingStateLoss();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if(result.isDrawerOpen()){
+            Log.d("Skerdi", "hapur");
+            result.closeDrawer();
+        }
+        else {
+            if (getFragmentManager().getBackStackEntryCount() > 0) {
+                getFragmentManager().popBackStack();
+            } else {
+                super.onBackPressed();
+            }
+        }
     }
 }

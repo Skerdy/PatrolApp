@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.barbarakoduzi.patrolapp.Adapters.GjobatAdapter;
+import com.barbarakoduzi.patrolapp.Adapters.GjobatShoferAdapter;
 import com.barbarakoduzi.patrolapp.Models.Gjobe;
 import com.barbarakoduzi.patrolapp.Models.PerdoruesPolic;
 import com.barbarakoduzi.patrolapp.Models.PerdoruesShofer;
@@ -20,7 +21,6 @@ import com.barbarakoduzi.patrolapp.Models.Polic;
 import com.barbarakoduzi.patrolapp.Models.Shofer;
 import com.barbarakoduzi.patrolapp.R;
 import com.barbarakoduzi.patrolapp.Utils.CodesUtil;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,33 +29,52 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout;
 
 import static android.view.View.VISIBLE;
 
-
-public class GjobatFragment extends Fragment {
+public class GjobatShoferFragment extends Fragment {
 
     private FirebaseDatabase database;
     private FirebaseAuth auth;
-    private DatabaseReference gjobatRef, policRef, perdoruesRef;
-    private PerdoruesPolic perdoruesPolic;
+    private DatabaseReference gjobatRef, shoferRef, perdoruesRef;
+    private PerdoruesShofer perdoruesShofer;
+
     private List<Gjobe> gjobat;
     private RecyclerView recyclerView;
-    private GjobatAdapter gjobatAdapter;
+    private GjobatShoferAdapter gjobatShoferAdapter;
+
+    private Map<String,Gjobe> gjobeMap;
+
     private WaveSwipeRefreshLayout mWaveSwipeRefreshLayout;
+    private boolean paguar;
+
+    private static String ARG_PAGUAR = "paguar";
+
+
+    public static GjobatShoferFragment newInstance(boolean paguar){
+        GjobatShoferFragment gjobatShoferFragment = new GjobatShoferFragment();
+        Bundle args = new Bundle();
+        args.putBoolean(ARG_PAGUAR,paguar);
+        gjobatShoferFragment.setArguments(args);
+        return gjobatShoferFragment;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         gjobat = new ArrayList<>();
-        gjobatAdapter = new GjobatAdapter(getActivity(), new ArrayList<Gjobe>());
+        gjobeMap = new HashMap<>();
+        this.paguar = getArguments().getBoolean(ARG_PAGUAR,true);
+        gjobatShoferAdapter = new GjobatShoferAdapter(getActivity(), new ArrayList<Gjobe>(), new HashMap<String, Gjobe>());
         database = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
         gjobatRef = database.getReference(CodesUtil.REFERENCE_GJOBAT);
-        policRef = database.getReference(CodesUtil.REFERENCE_POLIC);
+        shoferRef = database.getReference(CodesUtil.REFERENCE_SHOFER);
         perdoruesRef = database.getReference(CodesUtil.REFERENCE_PERDORUES).child(auth.getCurrentUser().getUid());
 
 
@@ -67,22 +86,35 @@ public class GjobatFragment extends Fragment {
                 final Integer rol = Integer.parseInt(dataSnapshot.child("rol").getValue().toString());
                 final String profileId = dataSnapshot.child("idProfil").getValue().toString();
                 final String email = dataSnapshot.child("email").getValue().toString();
-
-                policRef = database.getReference(CodesUtil.REFERENCE_POLIC).child(profileId);
-
+                shoferRef = database.getReference(CodesUtil.REFERENCE_SHOFER).child(profileId);
                 //gjejme gjobat
-
                 gjobatRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         gjobat.clear();
+                        gjobeMap.clear();
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             Gjobe gjobe = snapshot.getValue(Gjobe.class);
-                            if(gjobe.getIdPolic().equals(profileId))
-                            gjobat.add(gjobe);
+                            if(gjobe.getIdShofer().equals(profileId)) {
+                                if(paguar){
+                                    if(gjobe.isPaguar()){
+                                        gjobeMap.put(snapshot.getKey(), gjobe);
+                                        gjobat.add(gjobe);
+                                    }
+                                }
+                                else{
+                                    if(!gjobe.isPaguar()){
+                                        gjobeMap.put(snapshot.getKey(), gjobe);
+                                        gjobat.add(gjobe);
+                                    }
+
+                                }
+
+                            }
                         }
-                        //ketu bene dhe notify ne setGjobat
-                        gjobatAdapter.setGjobat(gjobat);
+                        //ketu bene dhe notify ne setGjobat bashke me mapin me gjobat dhe cdo key per cdop gjobe
+                        gjobatShoferAdapter.setGjobat(gjobat,gjobeMap);
+
                     }
 
                     @Override
@@ -92,13 +124,13 @@ public class GjobatFragment extends Fragment {
                 });
 
                 //plotesojme profilin e policit
-                policRef.addValueEventListener(new ValueEventListener() {
+                shoferRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        String grada = dataSnapshot.child("grada").toString();
-                        String titulli = dataSnapshot.child("titulli").toString();
-                        Polic polic = new Polic(titulli, grada);
-                        perdoruesPolic = new PerdoruesPolic(emer,mbiemer,rol,profileId,email,polic);
+                        String piket = dataSnapshot.child("pikePatente").toString();
+                        String targa = dataSnapshot.child("targa").toString();
+                        Shofer shofer = new Shofer(piket, targa);
+                        perdoruesShofer = new PerdoruesShofer(emer,mbiemer,rol,profileId,email,shofer);
                     }
 
                     @Override
@@ -118,7 +150,8 @@ public class GjobatFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_polic_gjobat,container, false);
+        return inflater.inflate(R.layout.fragment_shofer_gjobat,container,false );
+
     }
 
     @Override
@@ -126,8 +159,7 @@ public class GjobatFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
-        recyclerView.setAdapter(gjobatAdapter);
-        mWaveSwipeRefreshLayout = (WaveSwipeRefreshLayout) view.findViewById(R.id.main_swipe);
+        recyclerView.setAdapter(gjobatShoferAdapter);mWaveSwipeRefreshLayout = (WaveSwipeRefreshLayout) view.findViewById(R.id.main_swipe);
         mWaveSwipeRefreshLayout.setWaveColor(getResources().getColor(R.color.primary));
         int[] colors = new int[]{R.color.white, R.color.white};
         mWaveSwipeRefreshLayout.setColorSchemeResources(colors);
@@ -136,7 +168,7 @@ public class GjobatFragment extends Fragment {
         mWaveSwipeRefreshLayout.setOnRefreshListener(new WaveSwipeRefreshLayout.OnRefreshListener() {
             @Override public void onRefresh() {
                 // Do work to refresh the list here.
-                new GjobatFragment.Task().execute();
+                new Task().execute();
                 recyclerView.setVisibility(View.INVISIBLE);
             }
         });

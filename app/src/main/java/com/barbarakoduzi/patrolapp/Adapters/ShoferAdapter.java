@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.barbarakoduzi.patrolapp.Activities.VerGjobeActivity;
+import com.barbarakoduzi.patrolapp.Models.PerdoruesShofer;
 import com.barbarakoduzi.patrolapp.Models.Shofer;
 import com.barbarakoduzi.patrolapp.R;
 import com.barbarakoduzi.patrolapp.Utils.CodesUtil;
@@ -21,12 +22,12 @@ import java.util.List;
 import java.util.Map;
 
 public class ShoferAdapter extends RecyclerView.Adapter<ShoferAdapter.ShoferViewHolder> {
-    private List<Shofer> shoferList;
+    private List<PerdoruesShofer> shoferList;
     private Context ctx;
     private String policeId;
     private Map<String,Shofer> shoferMap;
 
-    public ShoferAdapter (Context ctx , List<Shofer> shoferList, String policeId){
+    public ShoferAdapter (Context ctx , List<PerdoruesShofer> shoferList, String policeId){
         this.ctx = ctx;
         this.shoferList = shoferList;
         this.policeId = policeId;
@@ -42,20 +43,25 @@ public class ShoferAdapter extends RecyclerView.Adapter<ShoferAdapter.ShoferView
 
     @Override
     public void onBindViewHolder(@NonNull ShoferViewHolder holder, int position) {
-        final Shofer shofer = shoferList.get(position);
-        holder.targa.setText(shofer.getTarga());
-        holder.piketPatente.setText(shofer.getPikePatente());
+        final PerdoruesShofer shofer = shoferList.get(position);
+        holder.targa.setText(shofer.getShofer().getTarga());
+        holder.piketPatente.setText(shofer.getShofer().getPikePatente());
+        holder.emer.setText(shofer.getEmer());
+        holder.mbiemer.setText(shofer.getMbiemer());
+        holder.email.setText(shofer.getEmail());
         holder.verGjobe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String idShofer = getShoferKeyClicked(shofer.getTarga());
+                String idShofer = getShoferKeyClicked(shofer.getShofer().getTarga());
                 Intent intent = new Intent(ctx, VerGjobeActivity.class);
                 intent.putExtra(CodesUtil.SHOFER_ID, idShofer);
                 intent.putExtra(CodesUtil.POLIC_ID, policeId);
-                intent.putExtra(CodesUtil.TARGA, shofer.getTarga());
+                intent.putExtra(CodesUtil.TARGA, shofer.getShofer().getTarga());
                 ctx.startActivity(intent);
             }
         });
+
+
     }
 
     private String getShoferKeyClicked(String targa){
@@ -76,7 +82,7 @@ public class ShoferAdapter extends RecyclerView.Adapter<ShoferAdapter.ShoferView
 
     public class  ShoferViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView piketPatente;
+        private TextView piketPatente, emer, mbiemer, email;
         private TextView targa;
         private Button verGjobe;
 
@@ -86,11 +92,14 @@ public class ShoferAdapter extends RecyclerView.Adapter<ShoferAdapter.ShoferView
             piketPatente = itemView.findViewById(R.id.shofer_piket);
             targa = itemView.findViewById(R.id.shofer_targa);
             verGjobe = itemView.findViewById(R.id.shofer_vendos_gjobe);
+            emer = itemView.findViewById(R.id.shofer_emer);
+            mbiemer = itemView.findViewById(R.id.shofer_mbiemer);
+            email = itemView.findViewById(R.id.shofer_email);
 
         }
     }
 
-    public void setShoferList(List<Shofer> shoferList) {
+    public void setShoferList(List<PerdoruesShofer> shoferList) {
         this.shoferList = shoferList;
         this.notifyDataSetChanged();
     }

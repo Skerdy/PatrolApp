@@ -17,6 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:layout_marginLeft="4dp"
+            android:paddingLeft="10dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -28,18 +29,17 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=" Piket ne Patente"
-                    android:drawableLeft="@drawable/ic_icons_patente"
+                    android:text="  Pershkrim : "
                     android:textSize="13sp"
+                    android:drawableLeft="@drawable/ic_icons_pershkrim_gjobe"
                     android:gravity="center_vertical"
                     android:textStyle="bold"/>
                 <TextView
-                    android:id="@+id/shofer_piket"
+                    android:id="@+id/gjoba_pershkrim"
                     android:layout_width="wrap_content"
-                    android:layout_marginLeft="7dp"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
-                    android:text="30"/>
+                    android:text="sdfsdfsdfs"/>
             </LinearLayout>
 
             <LinearLayout
@@ -51,14 +51,35 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Targa"
+                    android:text="  Arsyeja : "
                     android:textSize="13sp"
-                    android:drawableLeft="@drawable/ic_icons_targa"
+                    android:drawableLeft="@drawable/ic_icons_pershkrim_gjobe"
                     android:gravity="center_vertical"
                     android:textStyle="bold"/>
                 <TextView
-                    android:layout_marginLeft="7dp"
-                    android:id="@+id/shofer_targa"
+                    android:id="@+id/gjoba_arsyeja"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:text="sdfsdfsdfs"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="5dp"
+                android:gravity="center_vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="  Lloji i gjobes : "
+                    android:textSize="13sp"
+                    android:drawableLeft="@drawable/ic_icons_lloji_gjobes"
+                    android:gravity="center_vertical"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/gjoba_lloji"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
@@ -71,41 +92,45 @@
                 android:orientation="horizontal"
                 android:layout_margin="5dp"
                 android:gravity="center_vertical">
-
-                <Button
-                    android:id="@+id/shofer_vendos_gjobe"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Vendos Gjobe"
+                    android:text="  Piket e ulura :  "
+                    android:drawableLeft="@drawable/ic_icons_piket_ulura"
                     android:textSize="13sp"
-                    style="@style/Base.Widget.AppCompat.Button.Colored"/>
+                    android:gravity="center_vertical"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/gjoba_piket_ulur"
+                    android:layout_width="wrap_content"
+                    android:textSize="12sp"
+                    android:layout_height="wrap_content"
+                    android:text="1"/>
             </LinearLayout>
 
-            <!--      <LinearLayout
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:orientation="horizontal"
-                      android:layout_margin="5dp"
-                      android:gravity="center_vertical">
-                      <TextView
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:text="  Salary :  "
-                          android:textSize="13sp"
-                          android:drawableLeft="@drawable/ic_icon_cash"
-                          android:gravity="center_vertical"
-                          android:textStyle="bold"/>
-                      <TextView
-                          android:id="@+id/salaryJob"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:textSize="12sp"
-                          android:text="1500$"/>
-                  </LinearLayout>-->
 
-
+            <LinearLayout
+                android:id="@+id/paguar"
+                android:layout_gravity="bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="5dp"
+                android:background="@color/colorAccent"
+                android:gravity="center"
+                android:padding="5dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:text="PAPAGUAR"/>
+            </LinearLayout>
 
         </LinearLayout>
+
+
 
         <!-- CONTENT -->
 

@@ -30,4 +30,8 @@ public class Shofer {
     public void setTarga(String targa) {
         this.targa = targa;
     }
+
+    public void zbritPiketEPatentesMe(Integer piketUlur){
+        pikePatente = ""+ (Integer.parseInt(pikePatente) - piketUlur);
+    }
 }

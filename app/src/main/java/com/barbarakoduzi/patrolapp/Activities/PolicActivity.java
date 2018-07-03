@@ -11,6 +11,7 @@ import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.barbarakoduzi.patrolapp.Fragments.GjobatFragment;
+import com.barbarakoduzi.patrolapp.Fragments.HomePolic;
 import com.barbarakoduzi.patrolapp.Fragments.ListaShoferFragment;
 import com.barbarakoduzi.patrolapp.Models.PerdoruesPolic;
 import com.barbarakoduzi.patrolapp.Models.PerdoruesShofer;
@@ -84,7 +85,7 @@ public class PolicActivity extends AppCompatActivity {
                         bejVeprim =true;
                         headerResult.removeProfile(0);
                         headerResult.addProfile(
-                                new ProfileDrawerItem().withName(perdoruesPolic.getEmer()+" " + perdoruesPolic.getMbiemer()).withEmail(perdoruesPolic.getEmail()).withIcon(getResources().getDrawable(R.drawable.ic_icons_shofer)),0);
+                                new ProfileDrawerItem().withName(perdoruesPolic.getEmer()+" " + perdoruesPolic.getMbiemer()).withEmail(perdoruesPolic.getEmail()).withIcon(getResources().getDrawable(R.drawable.ic_icons_police)),0);
                     }
 
                     @Override
@@ -108,13 +109,13 @@ public class PolicActivity extends AppCompatActivity {
         toolbar.setTitle("Home");
         setTitle("Home");
         setupNavigationDrawer();
+        initHomeFragment();
     }
 
     private void setupNavigationDrawer() {
         //if you want to update the items at a later time it is recommended to keep it in a variable
         PrimaryDrawerItem itemHome = new PrimaryDrawerItem().withIdentifier(0).withName("Home").withIcon(R.drawable.ic_icon__home_normal);
         PrimaryDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1).withName("Gjej Shofer").withIcon(R.drawable.ic_icon_gjej_driver);
-        PrimaryDrawerItem item2 = new PrimaryDrawerItem().withIdentifier(3).withName("Gjoba ekzistuese").withIcon(R.drawable.ic_icon_gjoba);
         PrimaryDrawerItem item3 = new PrimaryDrawerItem().withIdentifier(2).withName("Historiku i gjobave").withIcon(R.drawable.ic_icon_gjoba_history);
         SecondaryDrawerItem settings = new SecondaryDrawerItem().withIdentifier(5).withName("Settings").withIcon(R.drawable.ic_icon_settings);
         //nis me Home Fragment ne OnCreate
@@ -141,7 +142,7 @@ public class PolicActivity extends AppCompatActivity {
                 .withActivity(this)
                 .withToolbar(toolbar)
                 .addDrawerItems(
-                        itemHome, item1, item3, item2,
+                        itemHome, item1, item3,
                         new DividerDrawerItem(),
                         settings
                 )
@@ -154,7 +155,7 @@ public class PolicActivity extends AppCompatActivity {
                             public void run() {
                                 switch (position) {
                                     case 1:
-
+                                        initHomeFragment();
                                         break;
                                     case 2:
                                         if(bejVeprim)
@@ -189,6 +190,14 @@ public class PolicActivity extends AppCompatActivity {
                 .build();
       /*  result.addStickyFooterItem(new PrimaryDrawerItem().withName("Log out").withIconColor(Color.parseColor("#ffffff")).withIcon(R.drawable.ic_exit_to_app_white_24dp).withIdentifier(6).withTextColor(Color.parseColor("#ffffff")));
         result.getStickyFooter().setBackgroundResource(R.color.nav_yellow);*/
+    }
+
+    public void initHomeFragment(){
+        toolbar.setTitle("Patrol App");
+        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        HomePolic homePolic = new HomePolic();
+        fragmentTransaction.replace(R.id.fragmentLogin, homePolic, "home");
+        fragmentTransaction.commitAllowingStateLoss();
     }
 
     public void initGjejShoferFragment(){

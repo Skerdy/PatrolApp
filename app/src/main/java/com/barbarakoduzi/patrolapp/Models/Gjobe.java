@@ -12,14 +12,14 @@ public class Gjobe {
     private String vlera;
     private Date dataVenies;
     private Date afatiPerfundimtar;
+    private String targa;
     private boolean paguar;
 
     public Gjobe(){
 
     }
 
-
-    public Gjobe(String idPolic, String idShofer, String lloji, String piketUlura, String arsyeja, String vlera, Date dataVenies, Date afatiPerfundimtar, boolean paguar) {
+    public Gjobe(String idPolic, String idShofer, String lloji, String piketUlura, String arsyeja, String vlera, Date dataVenies, Date afatiPerfundimtar, String targa, boolean paguar) {
         this.idPolic = idPolic;
         this.idShofer = idShofer;
         this.lloji = lloji;
@@ -28,6 +28,7 @@ public class Gjobe {
         this.vlera = vlera;
         this.dataVenies = dataVenies;
         this.afatiPerfundimtar = afatiPerfundimtar;
+        this.targa = targa;
         this.paguar = paguar;
     }
 
@@ -101,5 +102,13 @@ public class Gjobe {
 
     public void setArsyeja(String arsyeja) {
         this.arsyeja = arsyeja;
+    }
+
+    public String getTarga() {
+        return targa;
+    }
+
+    public void setTarga(String targa) {
+        this.targa = targa;
     }
 }

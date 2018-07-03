@@ -1,5 +1,6 @@
 package com.barbarakoduzi.patrolapp.Activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,10 +10,14 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.barbarakoduzi.patrolapp.Models.Gjobe;
+import com.barbarakoduzi.patrolapp.Models.Shofer;
 import com.barbarakoduzi.patrolapp.R;
 import com.barbarakoduzi.patrolapp.Utils.CodesUtil;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
@@ -37,6 +42,7 @@ public class VerGjobeActivity extends AppCompatActivity implements TimePickerDia
     private Button verGjobe;
     private FirebaseDatabase database;
     private DatabaseReference gjobat;
+    private DatabaseReference shoferRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +50,7 @@ public class VerGjobeActivity extends AppCompatActivity implements TimePickerDia
         setContentView(R.layout.activity_ver_gjobe);
 
         database = FirebaseDatabase.getInstance();
+        shoferRef = database.getReference(CodesUtil.REFERENCE_SHOFER);
         idPolic = getIntent().getStringExtra(CodesUtil.POLIC_ID);
         idShofer = getIntent().getStringExtra(CodesUtil.SHOFER_ID);
         targaTxt = getIntent().getStringExtra(CodesUtil.TARGA);
@@ -54,11 +61,27 @@ public class VerGjobeActivity extends AppCompatActivity implements TimePickerDia
             @Override
             public void onClick(View v) {
                 if(validate()){
-                    gjobe = new Gjobe(idPolic,idShofer,llojiGjobes,pikeUlur,arsyejaTxt,vleratxt,data, new Date(), false);
+                    gjobe = new Gjobe(idPolic,idShofer,llojiGjobes,pikeUlur,arsyejaTxt,vleratxt,data, new Date(), targaTxt, false);
                     gjobat = database.getReference(CodesUtil.REFERENCE_GJOBAT);
                     gjobat.push().setValue(gjobe);
-                    onBackPressed();
-                    finish();
+                    shoferRef.child(idShofer).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            Shofer shofer = dataSnapshot.getValue(Shofer.class);
+                            shofer.zbritPiketEPatentesMe(Integer.parseInt(pikeUlur));
+                            shoferRef.child(idShofer).setValue(shofer);
+                            Intent intent = new Intent(VerGjobeActivity.this, PolicActivity.class );
+                            startActivity(intent);
+                            finish();
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+
                 }
             }
         });

@@ -11,6 +11,10 @@ public class Shofer {
         this.targa = targa;
     }
 
+    public Shofer(){
+
+    }
+
     public String getPikePatente() {
         return pikePatente;
     }

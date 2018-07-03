@@ -34,7 +34,7 @@
         android:layout_margin="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ju lutem vazhdoni më tej pë të plotësuar detajet që kerkohen"
+        android:text="Ju lutem vazhdoni më tej për të plotësuar detajet që kerkohen"
         android:textColor="#fff"
         android:textSize="15sp"/>
 

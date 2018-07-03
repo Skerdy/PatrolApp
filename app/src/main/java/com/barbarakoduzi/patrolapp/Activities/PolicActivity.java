@@ -9,7 +9,21 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.barbarakoduzi.patrolapp.Fragments.GjobatFragment;
+import com.barbarakoduzi.patrolapp.Fragments.ListaShoferFragment;
+import com.barbarakoduzi.patrolapp.Models.PerdoruesPolic;
+import com.barbarakoduzi.patrolapp.Models.PerdoruesShofer;
+import com.barbarakoduzi.patrolapp.Models.Polic;
+import com.barbarakoduzi.patrolapp.Models.Shofer;
 import com.barbarakoduzi.patrolapp.R;
+import com.barbarakoduzi.patrolapp.Utils.CodesUtil;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -26,14 +40,65 @@ public class PolicActivity extends AppCompatActivity {
 
     private Drawer result;
     private Toolbar toolbar;
+    private AccountHeader headerResult;
     private FragmentTransaction fragmentTransaction;
     private FragmentManager fragmentManager;
+    private DatabaseReference  perdoruesRef, loggedUserProfileReference;
+    private FirebaseAuth auth;
+    private FirebaseDatabase database;
+    private PerdoruesPolic perdoruesPolic;
+    private boolean bejVeprim = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setupViews();
+        setupFirebaseAndGetCurrentUser();
+    }
+
+    private void setupFirebaseAndGetCurrentUser(){
+
+        auth =FirebaseAuth.getInstance();
+        database =FirebaseDatabase.getInstance();
+        perdoruesRef =database.getReference(CodesUtil.REFERENCE_PERDORUES);
+        perdoruesRef.child(auth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                final String emer = dataSnapshot.child("emer").getValue().toString();
+                final String mbiemer = dataSnapshot.child("mbiemer").getValue().toString();
+                final Integer rol = Integer.parseInt(dataSnapshot.child("rol").getValue().toString());
+                final String profileId = dataSnapshot.child("idProfil").getValue().toString();
+                final String email = dataSnapshot.child("email").getValue().toString();
+
+                loggedUserProfileReference = database.getReference(CodesUtil.REFERENCE_POLIC).child(profileId);
+
+                loggedUserProfileReference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        String titulli = dataSnapshot.child("titulli").toString();
+                        String grada = dataSnapshot.child("grada").toString();
+                        Polic polic = new Polic(titulli, grada);
+                        perdoruesPolic = new PerdoruesPolic(emer,mbiemer,rol,profileId,email,polic);
+                        bejVeprim =true;
+                        headerResult.removeProfile(0);
+                        headerResult.addProfile(
+                                new ProfileDrawerItem().withName(perdoruesPolic.getEmer()+" " + perdoruesPolic.getMbiemer()).withEmail(perdoruesPolic.getEmail()).withIcon(getResources().getDrawable(R.drawable.ic_icons_shofer)),0);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void setupViews() {
@@ -56,7 +121,7 @@ public class PolicActivity extends AppCompatActivity {
         // Create the AccountHeader
 
 
-        AccountHeader headerResult = new AccountHeaderBuilder()
+         headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withTranslucentStatusBar(true)
                 .withHeaderBackground(R.drawable.nav_header)
@@ -92,10 +157,18 @@ public class PolicActivity extends AppCompatActivity {
 
                                         break;
                                     case 2:
-
+                                        if(bejVeprim)
+                                        initGjejShoferFragment();
+                                        else{
+                                            new MaterialDialog.Builder(PolicActivity.this)
+                                                    .title("Humbi sinkronizimi")
+                                                    .content("Problem ne databaze, nuk mund te vazhdoni me tej !")
+                                                    .positiveText("Ok")
+                                                    .show();
+                                        }
                                         break;
                                     case 3:
-
+                                        shikoGjobatEVena();
                                         break;
                                     case 4:
 
@@ -116,5 +189,23 @@ public class PolicActivity extends AppCompatActivity {
                 .build();
       /*  result.addStickyFooterItem(new PrimaryDrawerItem().withName("Log out").withIconColor(Color.parseColor("#ffffff")).withIcon(R.drawable.ic_exit_to_app_white_24dp).withIdentifier(6).withTextColor(Color.parseColor("#ffffff")));
         result.getStickyFooter().setBackgroundResource(R.color.nav_yellow);*/
+    }
+
+    public void initGjejShoferFragment(){
+        toolbar.setTitle("Gjej Shofer");
+        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        ListaShoferFragment listaShoferFragment = ListaShoferFragment.newInstance(perdoruesPolic.getIdProfil());
+        fragmentTransaction.addToBackStack("Shofer");
+        fragmentTransaction.replace(R.id.fragmentLogin, listaShoferFragment, "shofer");
+        fragmentTransaction.commitAllowingStateLoss();
+    }
+
+    public void shikoGjobatEVena(){
+        toolbar.setTitle("Gjobat");
+        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        GjobatFragment gjobatFragment = new  GjobatFragment();
+        fragmentTransaction.addToBackStack("Gjobat");
+        fragmentTransaction.replace(R.id.fragmentLogin, gjobatFragment, "Gjobat");
+        fragmentTransaction.commitAllowingStateLoss();
     }
 }

@@ -70,7 +70,7 @@ public class HomeShofer extends Fragment {
                         Shofer shofer = dataSnapshot.getValue(Shofer.class);
                         targa.setText(shofer.getTarga());
                         piketPatente.setText(shofer.getPikePatente());
-                        vleraPara.setText(shofer.getVleraPara());
+                        vleraPara.setText(shofer.getVleraPara()+ " ALL");
                     }
 
                     @Override

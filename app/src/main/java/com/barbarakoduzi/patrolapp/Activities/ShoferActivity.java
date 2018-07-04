@@ -18,12 +18,14 @@ import com.barbarakoduzi.patrolapp.Models.PerdoruesShofer;
 import com.barbarakoduzi.patrolapp.Models.Shofer;
 import com.barbarakoduzi.patrolapp.R;
 import com.barbarakoduzi.patrolapp.Utils.CodesUtil;
+import com.barbarakoduzi.patrolapp.Utils.MySharedPref;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -45,6 +47,8 @@ public class ShoferActivity extends AppCompatActivity {
     private FirebaseDatabase database;
     private FirebaseAuth auth;
     private DatabaseReference loggedUserReference, loggedUserProfileReference;
+    private MySharedPref mySharedPref;
+    private String refreshedToken;
 
     private PerdoruesShofer perdoruesShofer;
 
@@ -52,6 +56,8 @@ public class ShoferActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shofer);
+         refreshedToken= FirebaseInstanceId.getInstance().getToken();
+        Log.d("FirebaseID", refreshedToken);
         setupViews();
         setupFirebaseAndGetCurrentUser();
     }
@@ -59,6 +65,9 @@ public class ShoferActivity extends AppCompatActivity {
     private void setupFirebaseAndGetCurrentUser(){
         database = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
+        mySharedPref = new MySharedPref(this);
+        mySharedPref.saveStringInSharedPref(CodesUtil.EMAIL_I_LOGUAR, auth.getCurrentUser().getEmail());
+
         loggedUserReference = database.getReference(CodesUtil.REFERENCE_PERDORUES).child(auth.getCurrentUser().getUid());
         loggedUserReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -76,6 +85,7 @@ public class ShoferActivity extends AppCompatActivity {
                         String pikePatente = dataSnapshot.child("pikePatente").toString();
                         String targa = dataSnapshot.child("targa").toString();
                         Shofer shofer = new Shofer(pikePatente, targa);
+                        loggedUserProfileReference.child("fcm").setValue(refreshedToken);
                         perdoruesShofer = new PerdoruesShofer(emer,mbiemer,rol,profileId,email,shofer);
                         headerResult.removeProfile(0);
                         headerResult.addProfile(

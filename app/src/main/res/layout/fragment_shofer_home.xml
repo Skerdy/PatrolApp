@@ -67,6 +67,15 @@
                             android:textColor="@color/white"
                             android:textSize="20sp"
                             android:text=""/>
+
+                        <TextView
+                            android:id="@+id/vleraPara"
+                            android:layout_marginLeft="30dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:textSize="20sp"
+                            android:text=""/>
                     </LinearLayout>
                 </LinearLayout>
             </RelativeLayout>

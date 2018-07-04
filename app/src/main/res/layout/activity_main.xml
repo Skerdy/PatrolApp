@@ -34,37 +34,4 @@
     </RelativeLayout>
 
 
-    <com.github.clans.fab.FloatingActionMenu
-        android:id="@+id/fabmenu"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="bottom|end"
-        android:elevation="4dp"
-        android:paddingBottom="16dp"
-        fab:menu_backgroundColor="#ccffffff"
-        fab:menu_colorNormal="@color/fab_menu_colorNormal"
-        fab:menu_colorPressed="@color/fab_menu_colorPressed"
-        fab:menu_colorRipple="@color/fab_menu_colorRipple"
-        fab:menu_labels_ellipsize="end"
-        fab:menu_labels_singleLine="true">
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/kalendar_javor"
-            style="@style/MenuButtonsSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            fab:fab_label="Ver gjobe"
-            android:src="@drawable/ic_icon_ver_gjobe"
-            fab:fab_size="mini" />
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/kalendar_ditor"
-            style="@style/MenuButtonsSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_icon_gjobat_e_mia"
-            fab:fab_label="Shiko gjobat"
-            fab:fab_size="mini" />
-    </com.github.clans.fab.FloatingActionMenu>
-
 </android.support.design.widget.CoordinatorLayout>

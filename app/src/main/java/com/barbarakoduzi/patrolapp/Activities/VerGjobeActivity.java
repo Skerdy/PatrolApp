@@ -70,6 +70,7 @@ public class VerGjobeActivity extends AppCompatActivity implements TimePickerDia
                             Shofer shofer = dataSnapshot.getValue(Shofer.class);
                             shofer.zbritPiketEPatentesMe(Integer.parseInt(pikeUlur));
                             shoferRef.child(idShofer).setValue(shofer);
+
                             Intent intent = new Intent(VerGjobeActivity.this, PolicActivity.class );
                             startActivity(intent);
                             finish();

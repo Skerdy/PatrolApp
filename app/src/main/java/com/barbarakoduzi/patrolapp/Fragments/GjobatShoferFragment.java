@@ -114,6 +114,7 @@ public class GjobatShoferFragment extends Fragment {
                         }
                         //ketu bene dhe notify ne setGjobat bashke me mapin me gjobat dhe cdo key per cdop gjobe
                         gjobatShoferAdapter.setGjobat(gjobat,gjobeMap);
+                        gjobatShoferAdapter.setShoferID(profileId);
 
                     }
 
@@ -127,10 +128,9 @@ public class GjobatShoferFragment extends Fragment {
                 shoferRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        String piket = dataSnapshot.child("pikePatente").toString();
-                        String targa = dataSnapshot.child("targa").toString();
-                        Shofer shofer = new Shofer(piket, targa);
+                        Shofer shofer = dataSnapshot.getValue(Shofer.class);
                         perdoruesShofer = new PerdoruesShofer(emer,mbiemer,rol,profileId,email,shofer);
+                        gjobatShoferAdapter.setShofer(shofer);
                     }
 
                     @Override

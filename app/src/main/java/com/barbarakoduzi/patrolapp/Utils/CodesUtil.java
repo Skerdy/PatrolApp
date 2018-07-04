@@ -15,4 +15,8 @@ public class CodesUtil {
     public static final String TARGA ="targa" ;
     public static final Integer GJOBA_E_PAGUAR = 1 ;
     public static final String PERDORUES_EMAIL ="email_Patrol_APP" ;
+    public static final String FIREBASE_TOKEN ="firbase_token" ;
+    public static final String NOTIFICATION_LAUNCH ="notificaton_launch" ;
+    public static final String GJOBE_E_RE = "gjobe_e_re" ;
+    public static final String EMAIL_I_LOGUAR ="email_i_loguar" ;
 }

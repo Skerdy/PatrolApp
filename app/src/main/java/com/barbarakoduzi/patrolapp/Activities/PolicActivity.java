@@ -26,6 +26,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -57,6 +58,8 @@ public class PolicActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setupViews();
         setupFirebaseAndGetCurrentUser();
+        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+        Log.d("FirebaseID", refreshedToken);
     }
 
     private void setupFirebaseAndGetCurrentUser(){

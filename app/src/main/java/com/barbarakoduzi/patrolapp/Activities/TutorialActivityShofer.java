@@ -35,6 +35,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 public class TutorialActivityShofer extends AppCompatActivity {
     static final int NUM_PAGES = 4;
@@ -193,8 +194,11 @@ public class TutorialActivityShofer extends AppCompatActivity {
         perdoruesReference = database.getReference(CodesUtil.REFERENCE_PERDORUES).child(mAuth.getCurrentUser().getUid());
         shoferReference = database.getReference(CodesUtil.REFERENCE_SHOFER);
         final String shoferId = shoferReference.push().getKey();
+        Shofer shofer = new Shofer(piket,targa);
+        shofer.setFcm(FirebaseInstanceId.getInstance().getToken());
+        shofer.setVleraPara("2000");
 
-        shoferReference.child(shoferId).setValue(new Shofer(piket, targa));
+        shoferReference.child(shoferId).setValue(shofer);
 
         perdoruesReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

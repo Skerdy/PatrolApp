@@ -40,6 +40,20 @@
             android:theme="@style/AppTheme.Dark"></activity>
         <activity android:name=".Activities.VerGjobeActivity">
         </activity>
+
+        <service
+            android:name=".FirebaseMessaging.MessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".FirebaseMessaging.FirebaseToken">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

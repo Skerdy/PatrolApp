@@ -25,7 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 public class HomeShofer extends Fragment {
 
     private CardView shkoTekGjobatPaguar, shkoTekGjobatPaPaguar;
-    private TextView emer_mbiemer, piketPatente, targa;
+    private TextView emer_mbiemer, piketPatente, targa, vleraPara;
     private FirebaseAuth auth;
     private FirebaseDatabase database;
     private DatabaseReference perdorues, shofer;
@@ -55,6 +55,7 @@ public class HomeShofer extends Fragment {
         shkoTekGjobatPaPaguar = view.findViewById(R.id.card_gjoba_jo_paguar);
         emer_mbiemer = view.findViewById(R.id.emer_mbiemer);
         piketPatente = view.findViewById(R.id.piket_patente);
+        vleraPara = view.findViewById(R.id.vleraPara);
         targa = view.findViewById(R.id.targa);
 
 
@@ -69,6 +70,7 @@ public class HomeShofer extends Fragment {
                         Shofer shofer = dataSnapshot.getValue(Shofer.class);
                         targa.setText(shofer.getTarga());
                         piketPatente.setText(shofer.getPikePatente());
+                        vleraPara.setText(shofer.getVleraPara());
                     }
 
                     @Override

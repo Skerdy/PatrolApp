@@ -11,6 +11,10 @@ public class Shofer {
         this.targa = targa;
     }
 
+    public Shofer(){
+
+    }
+
     public String getPikePatente() {
         return pikePatente;
     }
@@ -25,5 +29,9 @@ public class Shofer {
 
     public void setTarga(String targa) {
         this.targa = targa;
+    }
+
+    public void zbritPiketEPatentesMe(Integer piketUlur){
+        pikePatente = ""+ (Integer.parseInt(pikePatente) - piketUlur);
     }
 }

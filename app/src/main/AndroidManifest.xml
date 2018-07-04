@@ -19,11 +19,15 @@
             android:name=".Activities.PolicActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Activities.TutorialActivity" />
-        <activity android:name=".Activities.ShoferActivity"
+        <activity
+            android:name=".Activities.TutorialActivity"
+            android:theme="@style/AppTheme.Dark" />
+        <activity
+            android:name=".Activities.ShoferActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".Activities.SplashScreen"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activities.SplashScreen"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,7 +35,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.TutorialActivityShofer"></activity>
+        <activity
+            android:name=".Activities.TutorialActivityShofer"
+            android:theme="@style/AppTheme.Dark"></activity>
+        <activity android:name=".Activities.VerGjobeActivity">
+        </activity>
     </application>
 
 </manifest>

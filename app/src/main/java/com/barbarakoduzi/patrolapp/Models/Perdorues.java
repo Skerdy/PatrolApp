@@ -8,6 +8,10 @@ public class Perdorues {
     private String IdProfil;
     private String email;
 
+    public Perdorues(){
+
+    }
+
     public Perdorues(String emer, String mbiemer, Integer rol, String idProfil, String email) {
         this.emer = emer;
         this.mbiemer = mbiemer;

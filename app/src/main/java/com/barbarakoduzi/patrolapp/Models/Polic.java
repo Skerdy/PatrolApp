@@ -9,6 +9,10 @@ public class Polic {
         this.grada = grada;
     }
 
+    public Polic(){
+
+    }
+
     public String getTitulli() {
         return titulli;
     }

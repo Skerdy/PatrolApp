@@ -55,6 +55,10 @@ public class Login extends AppCompatActivity {
         signupLink = findViewById(R.id.link_signup);
         loginButton = findViewById(R.id.btn_login);
 
+        if(mySharedPref.getStringFromSharedPref(CodesUtil.PERDORUES_EMAIL)!=null && !mySharedPref.getStringFromSharedPref(CodesUtil.PERDORUES_EMAIL).equals("failedToGetStringFromShared")){
+            emailText.setText(mySharedPref.getStringFromSharedPref(CodesUtil.PERDORUES_EMAIL));
+        }
+
         loginButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -91,7 +95,6 @@ public class Login extends AppCompatActivity {
             return;
         }
 
-        loginButton.setEnabled(false);
 
         progressDialog = new ProgressDialog(Login.this,
                 R.style.AppTheme_Dark_Dialog);
@@ -99,7 +102,7 @@ public class Login extends AppCompatActivity {
         progressDialog.setMessage("Duke u log-uar ...");
         progressDialog.show();
 
-        String email = emailText.getText().toString();
+        final String email = emailText.getText().toString();
         String password = passwordText.getText().toString();
 
         // TODO: Implement your own authentication logic here.
@@ -112,6 +115,7 @@ public class Login extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            mySharedPref.saveStringInSharedPref(CodesUtil.PERDORUES_EMAIL, email);
                             onLoginSuccess();
                         } else {
                             // If sign in fails, display a message to the user.

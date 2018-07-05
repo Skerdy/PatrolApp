@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.barbarakoduzi.patrolapp.Activities.ShoferActivity;
 import com.barbarakoduzi.patrolapp.Models.Perdorues;
 import com.barbarakoduzi.patrolapp.Models.Polic;
 import com.barbarakoduzi.patrolapp.Models.Shofer;
@@ -57,6 +58,20 @@ public class HomeShofer extends Fragment {
         piketPatente = view.findViewById(R.id.piket_patente);
         vleraPara = view.findViewById(R.id.vleraPara);
         targa = view.findViewById(R.id.targa);
+
+        shkoTekGjobatPaguar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((ShoferActivity)getActivity()).shikoGjobatMeParamPagesen(true);
+            }
+        });
+
+        shkoTekGjobatPaPaguar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((ShoferActivity)getActivity()).shikoGjobatMeParamPagesen(false);
+            }
+        });
 
 
         perdorues.child(auth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {

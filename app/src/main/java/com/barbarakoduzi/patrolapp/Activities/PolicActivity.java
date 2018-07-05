@@ -234,8 +234,8 @@ public class PolicActivity extends AppCompatActivity {
             result.closeDrawer();
         }
         else {
-            if (getFragmentManager().getBackStackEntryCount() > 0) {
-                getFragmentManager().popBackStack();
+            if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                getSupportFragmentManager().popBackStack();
             } else {
                 super.onBackPressed();
             }

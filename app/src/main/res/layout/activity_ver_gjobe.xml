@@ -131,6 +131,7 @@
     </android.support.v7.widget.CardView>
 
     <Button
+        android:elevation="6dp"
         android:layout_alignParentBottom="true"
         android:id="@+id/ver_gjobe"
         android:layout_width="match_parent"
